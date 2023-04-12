@@ -4,7 +4,7 @@ import { Button } from "./ui/button"
 export default function MainHeader() {
 	return (
 		<header className="flex items-center justify-between px-36">
-			<h1 className=""> Logo </h1>
+			<h1 className="">JOBS_TRACKING</h1>
 			<nav>
 				<ul>
 					<li>
