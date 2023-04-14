@@ -7,15 +7,19 @@ export default function Home() {
 		new Date(Date.now())
 	)
 	return (
-		<main className="relative">
-			hello world
+		<main className="relative flex flex-wrap gap-4">
 			{/* <DialogDemo /> */}
-			<Card
-				companyName="Apple"
-				positon="JS Dev"
-				status={""}
-				date={today}
-			/>
+			{Array.from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).map((n) => (
+				<div
+					key={n}
+					className="mt-12 min-w-[300px] flex-1">
+					<Card
+						companyName="Apple"
+						positon="JS Dev"
+						date={today}
+					/>
+				</div>
+			))}
 		</main>
 	)
 }

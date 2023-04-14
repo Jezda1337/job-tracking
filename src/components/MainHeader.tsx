@@ -3,13 +3,13 @@ import { Button } from "./ui/button"
 
 export default function MainHeader() {
 	return (
-		<header className="flex items-center justify-between px-36">
-			<h1 className="">JOBS_TRACKING</h1>
+		<header className="flex items-center justify-between pt-8">
+			<h1 className="text-2xl font-bold">JOBS_TRACKING</h1>
 			<nav>
 				<ul>
 					<li>
-						<Button>
-							<Github className="mr-3 aspect-square w-4" /> Get in Boy
+						<Button className="h-12 w-32">
+							<Github className="aspect-square w-5" />
 						</Button>
 					</li>
 				</ul>
