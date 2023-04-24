@@ -6,9 +6,9 @@ type Props = {
 	companyName: string
 	positon: string
 	status?: string
-	date: Date
+	date: string
 }
-export default function Card({
+export default function EditCard({
 	companyName,
 	positon,
 	status = "Pending",

@@ -1,4 +1,4 @@
-import { Github } from "lucide-react"
+import { Github, LogOut } from "lucide-react"
 import { Button } from "./ui/button"
 
 export default function MainHeader() {
@@ -9,7 +9,11 @@ export default function MainHeader() {
 				<ul>
 					<li>
 						<Button className="h-12 w-32">
-							<Github className="aspect-square w-5" />
+							{true ? (
+								<Github className="aspect-square w-5" />
+							) : (
+								<LogOut className="aspect-square w-5" />
+							)}
 						</Button>
 					</li>
 				</ul>
