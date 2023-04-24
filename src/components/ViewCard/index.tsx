@@ -1,10 +1,12 @@
-import { EditIcon } from "lucide-react"
+import { format } from "date-fns"
+import EditDialog from "../EditDialog"
+import "./viewCard.css"
 
 type Props = {
 	companyName: string
 	position: string
 	status?: string
-	date: string
+	date: Date
 }
 
 export default function ViewCard({
@@ -13,17 +15,18 @@ export default function ViewCard({
 	status = "Pending",
 	date,
 }: Props) {
+	// function handleEditModal() {
+	// 	console.log("test")
+	// }
 	return (
 		<>
-			<tr className="my-3 table-row w-full rounded p-2">
+			<tr className="test my-3 table-row w-full rounded p-2">
 				<td className="py-2 pl-4">{companyName}</td>
 				<td>{position}</td>
 				<td>{status}</td>
-				<td>{date}</td>
+				<td>{format(date, "PPP")}</td>
 				<td className="text-center">
-					<button className="">
-						<EditIcon className="h-5 w-5 hover:text-blue-600" />
-					</button>
+					<EditDialog date={Date.now()} />
 				</td>
 			</tr>
 		</>

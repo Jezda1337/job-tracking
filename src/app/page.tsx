@@ -3,22 +3,23 @@
 import ViewCard from "@/components/ViewCard"
 
 export default function Home() {
-	const today = new Intl.DateTimeFormat(["ban", "id"]).format(
-		new Date(Date.now())
-	)
+	console.log(Date.now())
 	return (
 		<main className="relative flex flex-wrap gap-4">
-			{/* <DialogDemo /> */}
 			<table className="mt-16 w-full">
 				<thead className="w-full text-left">
 					<tr>
-						<th className="rounded-bl rounded-tl bg-slate-300 py-2 pl-4">
+						<th className="mb-4 rounded-bl rounded-tl bg-secondary py-2 pl-4">
 							Company Name
 						</th>
-						<th className="bg-slate-300">Position</th>
-						<th className="bg-slate-300">Status</th>
-						<th className="bg-slate-300">Date</th>
-						<th className="rounded-br rounded-tr bg-slate-300"></th>
+						<th
+							className="bg-secondary
+							">
+							Position
+						</th>
+						<th className="bg-secondary">Status</th>
+						<th className="bg-secondary">Date</th>
+						<th className="rounded-br rounded-tr bg-secondary"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -27,7 +28,7 @@ export default function Home() {
 							key={n}
 							companyName="Apple"
 							position="JS Dev"
-							date={today}
+							date={new Date(Date.now())}
 						/>
 					))}
 				</tbody>
