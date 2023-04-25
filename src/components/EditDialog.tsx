@@ -21,7 +21,11 @@ import {
 	SelectValue,
 } from "./ui/select"
 
-export default function EditDialog({ date }: any) {
+type Props = {
+	date: Date
+}
+
+export default function EditDialog({ date }: Props) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>

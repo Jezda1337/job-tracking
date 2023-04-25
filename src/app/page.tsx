@@ -3,7 +3,6 @@
 import ViewCard from "@/components/ViewCard"
 
 export default function Home() {
-	console.log(Date.now())
 	return (
 		<main className="relative flex flex-wrap gap-4">
 			<table className="mt-16 w-full">

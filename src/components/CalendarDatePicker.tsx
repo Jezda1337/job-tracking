@@ -12,11 +12,14 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { Dispatch, SetStateAction } from "react"
 
-export function CalendarDatePicker(props: any) {
-	const [date, setDate] = React.useState<Date>(props.date)
-	console.log(props.date)
+type Props = {
+	date?: Date
+	setDate: Dispatch<SetStateAction<Date>>
+}
 
+export function CalendarDatePicker({ date, setDate }: Props): JSX.Element {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>

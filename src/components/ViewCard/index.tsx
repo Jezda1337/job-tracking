@@ -18,6 +18,7 @@ export default function ViewCard({
 	// function handleEditModal() {
 	// 	console.log("test")
 	// }
+	const now = new Date()
 	return (
 		<>
 			<tr className="test my-3 table-row w-full rounded p-2">
@@ -26,7 +27,7 @@ export default function ViewCard({
 				<td>{status}</td>
 				<td>{format(date, "PPP")}</td>
 				<td className="text-center">
-					<EditDialog date={Date.now()} />
+					<EditDialog date={now} />
 				</td>
 			</tr>
 		</>
