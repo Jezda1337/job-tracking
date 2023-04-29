@@ -26,11 +26,11 @@ type NewJob = {
 	companyName: string
 	position: string
 	status: string
-	submitedDate: Date
+	submitedDate: Date | undefined
 }
 
 export default function AddNewJobDialog() {
-	const [date, setDate] = useState<Date>(new Date())
+	const [date, setDate] = useState<Date | undefined>(new Date())
 	const [newJob, setNewJob] = useState<NewJob>({
 		companyName: "",
 		position: "",

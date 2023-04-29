@@ -1,5 +1,6 @@
 import MainHeader from "@/components/MainHeader"
 import { Toaster } from "@/components/Toaster"
+import SupabaseProvider from "@/lib/supabase-provider"
 import { Poppins } from "next/font/google"
 import "./globals.css"
 
@@ -12,7 +13,7 @@ const poppins = Poppins({
 	subsets: ["latin"],
 	weight: ["400", "500"],
 })
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode
@@ -20,11 +21,13 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`min-h-screen bg-white  ${poppins.className}`}>
-				<div className="mx-auto max-w-5xl">
-					<MainHeader />
-					{children}
-				</div>
-				<Toaster />
+				<SupabaseProvider>
+					<div className="mx-auto max-w-5xl">
+						<MainHeader />
+						{children}
+					</div>
+					<Toaster />
+				</SupabaseProvider>
 			</body>
 		</html>
 	)
