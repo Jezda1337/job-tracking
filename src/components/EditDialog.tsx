@@ -11,10 +11,10 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/hooks/use-toast"
 import { useSupabase } from "@/lib/supabase-provider"
 import { format } from "date-fns"
 import { EditIcon } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { CalendarDatePicker } from "./CalendarDatePicker"
 import {
@@ -24,7 +24,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "./ui/select"
-import { useToast } from "./ui/use-toast"
 
 type Props = {
 	id?: number
@@ -38,7 +37,6 @@ type Props = {
 export default function EditDialog(props: Props) {
 	const { supabase } = useSupabase()
 	const { toast } = useToast()
-	const router = useRouter()
 
 	const [companyName, setCompanyName] = useState(props.companyName)
 	const [position, setPosition] = useState(props.position)
@@ -47,7 +45,6 @@ export default function EditDialog(props: Props) {
 	const [link, setLink] = useState(props.link)
 
 	async function handleSubmit() {
-		router.refresh()
 		const { error } = await supabase
 			.from("job")
 			.update({
@@ -57,7 +54,7 @@ export default function EditDialog(props: Props) {
 				link: link,
 				submitedDate: format(submitedDate as Date, "MM/dd/yyyy"),
 			})
-			.eq("companyName", props.companyName)
+			.eq("id", props.id)
 
 		if (error) {
 			console.error(error)
@@ -66,16 +63,15 @@ export default function EditDialog(props: Props) {
 	}
 
 	async function handleDelete() {
+		const { error } = await supabase.from("job").delete().eq("id", props.id)
+		if (error) {
+			console.log(error)
+			return
+		}
 		toast({
 			variant: "destructive",
 			title: "You have successfully deleted the job",
-			description: "Test",
 		})
-		const { error } = await supabase.from("job").delete().eq("id", props.id)
-		// if (error) {
-		console.log(error)
-		// 	return
-		// }
 	}
 
 	return (
@@ -174,6 +170,7 @@ export default function EditDialog(props: Props) {
 					</DialogTrigger>
 					<DialogTrigger asChild>
 						<Button
+							variant="default"
 							onClick={handleSubmit}
 							type="submit">
 							Save changes
