@@ -4,10 +4,11 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
 
+import { Database } from "@/types/database"
 import type { SupabaseClient } from "@supabase/auth-helpers-nextjs"
 
 type SupabaseContext = {
-	supabase: SupabaseClient
+	supabase: SupabaseClient<Database>
 }
 
 const Context = createContext<SupabaseContext | undefined>(undefined)

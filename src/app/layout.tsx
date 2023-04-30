@@ -22,10 +22,8 @@ export default async function RootLayout({
 		<html lang="en">
 			<body className={`min-h-screen bg-white  ${poppins.className}`}>
 				<SupabaseProvider>
-					<div className="mx-auto max-w-5xl">
-						<MainHeader />
-						{children}
-					</div>
+					<MainHeader />
+					{children}
 					<Toaster />
 				</SupabaseProvider>
 			</body>

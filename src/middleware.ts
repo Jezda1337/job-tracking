@@ -11,7 +11,8 @@ export async function middleware(req: NextRequest) {
 	} = await supabase.auth.getSession()
 
 	if (session) {
-		return
+		NextResponse.redirect(new URL("/jobs", req.url))
+		return res
 	}
 
 	return NextResponse.redirect(new URL("/", req.url))

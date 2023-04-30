@@ -4,7 +4,7 @@ import { cookies, headers } from "next/headers"
 import AddNewJobDialog from "./AddNewJobDialog"
 import Login from "./Login"
 
-export default async function MainHeader() {
+async function MainHeader(): Promise<JSX.Element> {
 	const supabase = createServerComponentSupabaseClient({
 		headers,
 		cookies,
@@ -13,27 +13,31 @@ export default async function MainHeader() {
 		data: { user },
 	} = await supabase.auth.getUser()
 	return (
-		<header className="flex items-center justify-between pt-8">
-			<h1 className="text-2xl font-bold">JOBS_TRACKING</h1>
-			<nav>
-				{user?.id ? (
-					<ul className="flex items-center gap-2">
-						<li>
-							<AddNewJobDialog />
-						</li>
-						<li>{user?.user_metadata.name}</li>
-						<li className="flex items-center">
-							<DropDownMenu
-								name={user?.user_metadata.name}
-								email={user?.email!}
-								profilePicture={user?.user_metadata?.avatar_url}
-							/>
-						</li>
-					</ul>
-				) : (
-					<Login />
-				)}
-			</nav>
+		<header className="pb-8 pt-8 shadow">
+			<div className="mx-auto flex max-w-5xl items-center justify-between px-6 lg:px-0">
+				<h1 className="text-2xl font-bold">JOBS_TRACKING</h1>
+				<nav>
+					{user?.id ? (
+						<ul className="flex items-center gap-2">
+							<li>
+								<AddNewJobDialog />
+							</li>
+							<li>{user?.user_metadata.name}</li>
+							<li className="flex items-center">
+								<DropDownMenu
+									name={user?.user_metadata.name}
+									email={user?.email!}
+									profilePicture={user?.user_metadata?.avatar_url}
+								/>
+							</li>
+						</ul>
+					) : (
+						<Login />
+					)}
+				</nav>
+			</div>
 		</header>
 	)
 }
+
+export default MainHeader as unknown as () => JSX.Element // currently only solution https://github.com/vercel/next.js/issues/42292#issuecomment-1494848699
