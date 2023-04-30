@@ -15,12 +15,17 @@ import { cn } from "@/lib/utils"
 // import { Dispatch, SetStateAction } from "react"
 
 type Props = {
-	date?: string | null
+	// date?: string | null
+	date?: any
 	// setDate?: Dispatch<SetStateAction<string | null>>
 	setDate: any
 }
 
 export function CalendarDatePicker({ date, setDate }: Props): JSX.Element {
+	function handleDate(e: any) {
+		setDate(e)
+	}
+
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
@@ -31,14 +36,15 @@ export function CalendarDatePicker({ date, setDate }: Props): JSX.Element {
 						!date && "text-muted-foreground"
 					)}>
 					<CalendarIcon className="mr-2 h-4 w-4" />
-					{date ? format(new Date(date), "PPP") : <span>Pick a date</span>}
+					{date ? format(date, "PPP") : <span>Pick a date</span>}
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-auto p-0">
 				<Calendar
 					mode="single"
-					selected={new Date(date!)}
-					onSelect={setDate}
+					selected={date}
+					// onSelect={setDate}
+					onSelect={handleDate}
 					initialFocus
 				/>
 			</PopoverContent>

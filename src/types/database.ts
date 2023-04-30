@@ -13,26 +13,32 @@ export interface Database {
         Row: {
           companyName: string | null
           created_at: string | null
-          id: string
+          id: number
+          link: string | null
           position: string | null
           status: string | null
           submitedDate: string | null
+          user_id: string | null
         }
         Insert: {
           companyName?: string | null
           created_at?: string | null
-          id: string
+          id?: number
+          link?: string | null
           position?: string | null
           status?: string | null
           submitedDate?: string | null
+          user_id?: string | null
         }
         Update: {
           companyName?: string | null
           created_at?: string | null
-          id?: string
+          id?: number
+          link?: string | null
           position?: string | null
           status?: string | null
           submitedDate?: string | null
+          user_id?: string | null
         }
       }
     }

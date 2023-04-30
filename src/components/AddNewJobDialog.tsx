@@ -11,6 +11,9 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/hooks/use-toast"
+import { useSupabase } from "@/lib/supabase-provider"
+import { format } from "date-fns"
 import { PlusSquare } from "lucide-react"
 import { FormEvent, useState } from "react"
 import { CalendarDatePicker } from "./CalendarDatePicker"
@@ -26,21 +29,50 @@ type NewJob = {
 	companyName: string
 	position: string
 	status: string
+	link: string
 	submitedDate: Date | undefined
 }
 
 export default function AddNewJobDialog() {
+	const { supabase } = useSupabase()
+	const { toast } = useToast()
 	const [date, setDate] = useState<Date | undefined>(new Date())
 	const [newJob, setNewJob] = useState<NewJob>({
 		companyName: "",
 		position: "",
 		status: "",
+		link: "",
 		submitedDate: new Date(),
 	})
 
-	function handleSubmit(e: FormEvent<HTMLFormElement>) {
-		e.preventDefault()
+	async function getUserId() {
+		const {
+			data: { user },
+		} = await supabase.auth.getUser()
+		return user?.id ?? ""
+	}
+
+	async function handleSubmit() {
 		setNewJob({ ...newJob, submitedDate: date })
+		const { data, error } = await supabase.from("job").insert([
+			{
+				...newJob,
+				submitedDate: format(new Date(newJob.submitedDate!), "MM/dd/yyyy"),
+				user_id: await getUserId(),
+			},
+		])
+
+		if (error) {
+			console.error(error)
+			return
+		}
+		console.log(data)
+
+		toast({
+			title: "Successfuly added new job.",
+			description: `${newJob.companyName} as ${newJob.position}`,
+			variant: "default",
+		})
 	}
 
 	function handleChange(e: FormEvent<HTMLInputElement>) {
@@ -62,13 +94,10 @@ export default function AddNewJobDialog() {
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Edit profile</DialogTitle>
-					<DialogDescription>Another one</DialogDescription>
+					<DialogTitle>Add new job</DialogTitle>
+					<DialogDescription>Another one?</DialogDescription>
 				</DialogHeader>
-				<form
-					autoComplete="off"
-					className=""
-					onSubmit={handleSubmit}>
+				<form autoComplete="off">
 					<div className="grid gap-4 py-4">
 						<div
 							className="grid  grid-rows-2 items-center gap-1
@@ -98,6 +127,19 @@ export default function AddNewJobDialog() {
 								onChange={handleChange}
 							/>
 						</div>
+						<div className="grid-row-2 grid items-center gap-1">
+							<label
+								htmlFor="link"
+								className="row-span-1">
+								Link
+							</label>
+							<Input
+								placeholder="https://linkedin.com/job1 .."
+								id="link"
+								className="row-span-2"
+								onChange={handleChange}
+							/>
+						</div>
 						<div className="row-span-2 grid items-center gap-1">
 							<label
 								htmlFor="status"
@@ -106,7 +148,7 @@ export default function AddNewJobDialog() {
 							</label>
 							<Select onValueChange={handleSelect}>
 								<SelectTrigger className="row-span-2">
-									<SelectValue placeholder="Status" />
+									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="pending">Pending</SelectItem>
@@ -128,7 +170,13 @@ export default function AddNewJobDialog() {
 						</div>
 					</div>
 					<DialogFooter>
-						<Button type="submit">Save changes</Button>
+						<DialogTrigger asChild>
+							<Button
+								onClick={handleSubmit}
+								type="button">
+								Save
+							</Button>
+						</DialogTrigger>
 					</DialogFooter>
 				</form>
 			</DialogContent>

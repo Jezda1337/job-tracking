@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { useSupabase } from "@/lib/supabase-provider"
-import { Job } from "@/types/job"
+import { format } from "date-fns"
 import { EditIcon } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { CalendarDatePicker } from "./CalendarDatePicker"
 import {
 	Select,
@@ -23,34 +24,58 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "./ui/select"
+import { useToast } from "./ui/use-toast"
 
-export default function EditDialog(props: Job) {
+type Props = {
+	id?: number
+	companyName: string | null
+	position: string | null
+	status: string | null
+	submitedDate: Date | null
+	link: string | null
+}
+
+export default function EditDialog(props: Props) {
 	const { supabase } = useSupabase()
+	const { toast } = useToast()
+	const router = useRouter()
 
 	const [companyName, setCompanyName] = useState(props.companyName)
 	const [position, setPosition] = useState(props.position)
 	const [status, setStatus] = useState(props.status)
 	const [submitedDate, setSubmitedDate] = useState(props.submitedDate)
-
-	useEffect(() => {
-		console.log(companyName, position, status, submitedDate)
-	}, [submitedDate])
+	const [link, setLink] = useState(props.link)
 
 	async function handleSubmit() {
-		const { data, error } = await supabase
+		router.refresh()
+		const { error } = await supabase
 			.from("job")
 			.update({
 				companyName: companyName,
 				position: position,
 				status: status,
-				submitedDate: submitedDate,
+				link: link,
+				submitedDate: format(submitedDate as Date, "MM/dd/yyyy"),
 			})
-			.eq("companyName", "Test")
+			.eq("companyName", props.companyName)
 
 		if (error) {
-			console.log(error)
+			console.error(error)
+			return
 		}
-		console.log(data)
+	}
+
+	async function handleDelete() {
+		toast({
+			variant: "destructive",
+			title: "You have successfully deleted the job",
+			description: "Test",
+		})
+		const { error } = await supabase.from("job").delete().eq("id", props.id)
+		// if (error) {
+		console.log(error)
+		// 	return
+		// }
 	}
 
 	return (
@@ -62,10 +87,8 @@ export default function EditDialog(props: Job) {
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Edit profile</DialogTitle>
-					<DialogDescription>
-						Make changes to your profile here. Click save when youre done.
-					</DialogDescription>
+					<DialogTitle>Edit Job</DialogTitle>
+					<DialogDescription></DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div
@@ -80,6 +103,7 @@ export default function EditDialog(props: Job) {
 							id="companyName"
 							className="row-span-2"
 							onChange={(e) => setCompanyName(e.target.value)}
+							value={companyName ?? ""}
 						/>
 					</div>
 					<div className="grid-row-2 grid items-center gap-1">
@@ -92,6 +116,20 @@ export default function EditDialog(props: Job) {
 							id="position"
 							className="row-span-2"
 							onChange={(e) => setPosition(e.target.value)}
+							value={position ?? ""}
+						/>
+					</div>
+					<div className="grid-row-2 grid items-center gap-1">
+						<label
+							htmlFor="link"
+							className="row-span-1">
+							Link
+						</label>
+						<Input
+							id="link"
+							className="row-span-2"
+							onChange={(e) => setLink(e.target.value)}
+							value={link ?? ""}
 						/>
 					</div>
 					<div className="row-span-2 grid items-center gap-1">
@@ -100,7 +138,9 @@ export default function EditDialog(props: Job) {
 							className="row-span-1">
 							Status
 						</label>
-						<Select onValueChange={(e) => setStatus(e)}>
+						<Select
+							value={status ?? ""}
+							onValueChange={(e) => setStatus(e)}>
 							<SelectTrigger className="row-span-2">
 								<SelectValue placeholder="Status" />
 							</SelectTrigger>
@@ -124,6 +164,14 @@ export default function EditDialog(props: Job) {
 					</div>
 				</div>
 				<DialogFooter>
+					<DialogTrigger asChild>
+						<Button
+							variant="destructive"
+							onClick={handleDelete}
+							type="submit">
+							Delete
+						</Button>
+					</DialogTrigger>
 					<DialogTrigger asChild>
 						<Button
 							onClick={handleSubmit}
