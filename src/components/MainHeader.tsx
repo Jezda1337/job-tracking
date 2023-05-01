@@ -30,10 +30,10 @@ async function MainHeader(): Promise<JSX.Element> {
 							<li>
 								<AddNewJobDialog />
 							</li>
-							<li>{user?.user_metadata.name}</li>
+							<li>{user?.user_metadata.name ?? "Demo Duck"}</li>
 							<li className="flex items-center">
 								<DropDownMenu
-									name={user?.user_metadata.name}
+									name={user?.user_metadata.name ?? "Demo Duck"}
 									email={user?.email!}
 									profilePicture={user?.user_metadata?.avatar_url}
 								/>

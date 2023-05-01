@@ -12,7 +12,6 @@ export default function Page() {
 
 	async function getJobs() {
 		let { data: job } = await supabase.from("job").select("*")
-		console.log(job)
 		setJobs(job)
 	}
 

@@ -58,15 +58,13 @@ export default function AddNewJobDialog() {
 		event.preventDefault()
 		if (open) {
 			setNewJob({ ...newJob, submitedDate: date })
-
-			const { data, error } = await supabase.from("job").insert([
+			const { error } = await supabase.from("job").insert([
 				{
 					...newJob,
 					submitedDate: format(new Date(newJob.submitedDate!), "MM/dd/yyyy"),
 					user_id: await getUserId(),
 				},
 			])
-			console.log(data)
 
 			if (error) {
 				console.error(error)
