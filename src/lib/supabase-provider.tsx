@@ -26,7 +26,7 @@ export default function SupabaseProvider({
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(() => {
 			router.refresh()
-			router.push("/jobs")
+			// router.push("/jobs")
 		})
 
 		return () => {
