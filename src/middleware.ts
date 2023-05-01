@@ -11,11 +11,11 @@ export async function middleware(req: NextRequest) {
 	} = await supabase.auth.getSession()
 
 	if (session) {
-		NextResponse.redirect(new URL("https://testing.com/jobs", req.url))
+		NextResponse.redirect(new URL("/jobs", req.url))
 		return res
 	}
 
-	return NextResponse.redirect(new URL("https://testing.com/", req.url))
+	return NextResponse.redirect(new URL("/", req.url))
 }
 
 export const config = {
