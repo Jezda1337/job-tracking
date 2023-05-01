@@ -36,6 +36,8 @@ type NewJob = {
 export default function AddNewJobDialog() {
 	const { supabase } = useSupabase()
 	const { toast } = useToast()
+
+	const [open, setOpen] = useState(false)
 	const [date, setDate] = useState<Date | undefined>(new Date())
 	const [newJob, setNewJob] = useState<NewJob>({
 		companyName: "",
@@ -52,27 +54,33 @@ export default function AddNewJobDialog() {
 		return user?.id ?? ""
 	}
 
-	async function handleSubmit() {
-		setNewJob({ ...newJob, submitedDate: date })
-		const { data, error } = await supabase.from("job").insert([
-			{
-				...newJob,
-				submitedDate: format(new Date(newJob.submitedDate!), "MM/dd/yyyy"),
-				user_id: await getUserId(),
-			},
-		])
+	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault()
+		if (open) {
+			setNewJob({ ...newJob, submitedDate: date })
 
-		if (error) {
-			console.error(error)
-			return
+			const { data, error } = await supabase.from("job").insert([
+				{
+					...newJob,
+					submitedDate: format(new Date(newJob.submitedDate!), "MM/dd/yyyy"),
+					user_id: await getUserId(),
+				},
+			])
+			console.log(data)
+
+			if (error) {
+				console.error(error)
+				return
+			}
+
+			setOpen(false)
+
+			toast({
+				title: "Successfuly added new job.",
+				description: `${newJob.companyName} as ${newJob.position}`,
+				variant: "default",
+			})
 		}
-		console.log(data)
-
-		toast({
-			title: "Successfuly added new job.",
-			description: `${newJob.companyName} as ${newJob.position}`,
-			variant: "default",
-		})
 	}
 
 	function handleChange(e: FormEvent<HTMLInputElement>) {
@@ -86,7 +94,9 @@ export default function AddNewJobDialog() {
 		setNewJob({ ...newJob, status: e })
 	}
 	return (
-		<Dialog>
+		<Dialog
+			open={open}
+			onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button>
 					<PlusSquare className="aspect-square w-5" />
@@ -97,7 +107,9 @@ export default function AddNewJobDialog() {
 					<DialogTitle>Add new job</DialogTitle>
 					<DialogDescription>Another one?</DialogDescription>
 				</DialogHeader>
-				<form autoComplete="off">
+				<form
+					autoComplete="off"
+					onSubmit={handleSubmit}>
 					<div className="grid gap-4 py-4">
 						<div
 							className="grid  grid-rows-2 items-center gap-1
@@ -112,6 +124,7 @@ export default function AddNewJobDialog() {
 								onChange={handleChange}
 								id="companyName"
 								className="row-span-2"
+								required
 							/>
 						</div>
 						<div className="grid-row-2 grid items-center gap-1">
@@ -125,6 +138,7 @@ export default function AddNewJobDialog() {
 								id="position"
 								className="row-span-2"
 								onChange={handleChange}
+								required
 							/>
 						</div>
 						<div className="grid-row-2 grid items-center gap-1">
@@ -172,13 +186,11 @@ export default function AddNewJobDialog() {
 						</div>
 					</div>
 					<DialogFooter>
-						<DialogTrigger asChild>
-							<Button
-								onClick={handleSubmit}
-								type="button">
-								Save
-							</Button>
-						</DialogTrigger>
+						<Button
+							aria-label="Close"
+							type="submit">
+							Save
+						</Button>
 					</DialogFooter>
 				</form>
 			</DialogContent>
