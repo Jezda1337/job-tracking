@@ -1,8 +1,10 @@
 import DropDownMenu from "@/components/DropDownMenu"
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import { cookies, headers } from "next/headers"
+import Image from "next/image"
 import AddNewJobDialog from "./AddNewJobDialog"
 import Login from "./Login"
+import Logo from "/public/logo.svg"
 
 async function MainHeader(): Promise<JSX.Element> {
 	const supabase = createServerComponentSupabaseClient({
@@ -15,7 +17,13 @@ async function MainHeader(): Promise<JSX.Element> {
 	return (
 		<header className="pb-8 pt-8 shadow">
 			<div className="mx-auto flex max-w-5xl items-center justify-between px-6 lg:px-0">
-				<h1 className="text-2xl font-bold">JOBS_TRACKING</h1>
+				<div>
+					<Image
+						className="aspect-square w-12"
+						src={Logo}
+						alt="Logo"
+					/>
+				</div>
 				<nav>
 					{user?.id ? (
 						<ul className="flex items-center gap-2">
