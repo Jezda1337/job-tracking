@@ -142,7 +142,7 @@ export default function EditDialog(props: Props) {
 							</SelectTrigger>
 							<SelectContent>
 								<SelectItem value="pending">Pending</SelectItem>
-								<SelectItem value="sucess">Success</SelectItem>
+								<SelectItem value="accepted">Accepted</SelectItem>
 								<SelectItem value="rejected">Rejected</SelectItem>
 							</SelectContent>
 						</Select>

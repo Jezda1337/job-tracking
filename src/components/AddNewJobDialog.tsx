@@ -40,7 +40,7 @@ export default function AddNewJobDialog() {
 	const [newJob, setNewJob] = useState<NewJob>({
 		companyName: "",
 		position: "",
-		status: "",
+		status: "pending",
 		link: "",
 		submitedDate: new Date(),
 	})
@@ -146,14 +146,16 @@ export default function AddNewJobDialog() {
 								className="row-span-1">
 								Status
 							</label>
-							<Select onValueChange={handleSelect}>
+							<Select
+								onValueChange={handleSelect}
+								value={newJob.status}>
 								<SelectTrigger className="row-span-2">
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="pending">Pending</SelectItem>
-									<SelectItem value="sucess">Success</SelectItem>
-									<SelectItem value="system">System</SelectItem>
+									<SelectItem value="accepted">Accepted</SelectItem>
+									<SelectItem value="rejected">Rejected</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>

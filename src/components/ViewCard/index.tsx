@@ -33,8 +33,8 @@ export default function ViewCard({
 					</a>
 				</td>
 				<td>
-					<div className="flex items-center gap-2">
-						<p>{status}</p>
+					<div className="relative flex items-center gap-2">
+						<p className="first-letter:uppercase">{status}</p>
 						<div
 							className={`${
 								status === "pending"
@@ -42,7 +42,7 @@ export default function ViewCard({
 									: status === "accepted"
 									? "bg-green-400"
 									: "bg-red-500"
-							} w-3 h-3 rounded-full`}></div>
+							} w-3 h-3 rounded-full absolute right-7`}></div>
 					</div>
 				</td>
 				<td>{format(new Date(submitedDate!), "PPP")}</td>
