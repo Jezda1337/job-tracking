@@ -170,7 +170,7 @@ export default function EditDialog(props: Props) {
 							/>
 						</div>
 					</div>
-					<DialogFooter>
+					<DialogFooter className="gap-2">
 						<DialogTrigger asChild>
 							<Button
 								variant="destructive"
