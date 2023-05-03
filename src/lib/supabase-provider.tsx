@@ -6,12 +6,14 @@ import { createContext, useContext, useEffect, useState } from "react"
 
 import { Database } from "@/types/database"
 import type { SupabaseClient } from "@supabase/auth-helpers-nextjs"
+import { User } from "@supabase/supabase-js"
 
 type SupabaseContext = {
 	supabase: SupabaseClient<Database>
 }
 
 const Context = createContext<SupabaseContext | undefined>(undefined)
+const CurretnUser = createContext<User | null>(null)
 
 export default function SupabaseProvider({
 	children,
@@ -20,6 +22,7 @@ export default function SupabaseProvider({
 }) {
 	const [supabase] = useState(() => createBrowserSupabaseClient())
 	const router = useRouter()
+	const [user, setUser] = useState<User | null>(null)
 
 	useEffect(() => {
 		const {
@@ -34,11 +37,33 @@ export default function SupabaseProvider({
 		}
 	}, [router, supabase])
 
+	useEffect(() => {
+		async function getUserData() {
+			const {
+				data: { user },
+			} = await supabase.auth.getUser()
+			setUser(user)
+		}
+
+		getUserData()
+	}, [supabase])
+
 	return (
 		<Context.Provider value={{ supabase }}>
-			<>{children}</>
+			<CurretnUser.Provider value={user}>
+				<>{children}</>
+			</CurretnUser.Provider>
 		</Context.Provider>
 	)
+}
+
+export const useUser = () => {
+	const context = useContext(CurretnUser)
+	if (context === null) {
+		return null
+	}
+
+	return context
 }
 
 export const useSupabase = () => {

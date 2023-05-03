@@ -16,7 +16,10 @@ async function MainHeader(): Promise<JSX.Element> {
 	} = await supabase.auth.getUser()
 	return (
 		<header className="pb-8 pt-8 shadow">
-			<div className="mx-auto flex max-w-5xl items-center justify-between px-6 lg:px-0">
+			<div
+				className={`mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 md:flex-row md:gap-0 lg:px-0 ${
+					user ? "flex-row" : "flex-col"
+				}`}>
 				<div>
 					<Image
 						className="aspect-square w-12"
@@ -30,7 +33,9 @@ async function MainHeader(): Promise<JSX.Element> {
 							<li>
 								<AddNewJobDialog />
 							</li>
-							<li>{user?.user_metadata.name ?? "Demo Duck"}</li>
+							<li className="hidden md:block">
+								{user?.user_metadata.name ?? "Demo Duck"}
+							</li>
 							<li className="flex items-center">
 								<DropDownMenu
 									name={user?.user_metadata.name ?? "Demo Duck"}

@@ -1,24 +1,42 @@
+"use client"
+
+import { useSupabase } from "@/lib/supabase-provider"
+import { Job } from "@/types/job"
 import { format } from "date-fns"
+import { useEffect, useState } from "react"
 import EditDialog from "../EditDialog"
 import "./viewCard.css"
 
 type Props = {
-	id?: number
-	companyName: string | null
-	position: string | null
-	status: string | null
-	link: string | null
-	submitedDate: Date | null
+	job: Job
 }
+export default function ViewCard(props: Props) {
+	const { supabase } = useSupabase()
+	const [job, setJob] = useState(props.job)
+	const { companyName, position, status, link, submitedDate, id } = job
 
-export default function ViewCard({
-	companyName,
-	position,
-	status = "pending",
-	submitedDate,
-	link,
-	id,
-}: Props) {
+	useEffect(() => {
+		const channel = supabase
+			.channel("update db")
+			.on(
+				"postgres_changes",
+				{
+					event: "UPDATE",
+					schema: "public",
+					table: "job",
+					filter: `id=eq.${id}`,
+				},
+				(payload) => {
+					setJob(payload.new as Job)
+				}
+			)
+			.subscribe()
+
+		return () => {
+			channel.unsubscribe()
+		}
+	}, [supabase, id, job, setJob])
+
 	return (
 		<>
 			<tr className="test my-3 table-row w-32 rounded p-2">
@@ -51,7 +69,7 @@ export default function ViewCard({
 						companyName={companyName}
 						position={position}
 						status={status}
-						submitedDate={submitedDate}
+						submitedDate={new Date(submitedDate!)}
 						link={link}
 						id={id}
 					/>

@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { useSupabase } from "@/lib/supabase-provider"
 import { format } from "date-fns"
-import { PlusSquare } from "lucide-react"
 import { FormEvent, useState } from "react"
 import { CalendarDatePicker } from "./CalendarDatePicker"
 import {
@@ -75,7 +74,7 @@ export default function AddNewJobDialog() {
 
 			toast({
 				title: "Successfuly added new job.",
-				description: `${newJob.companyName} as ${newJob.position}`,
+				description: `${newJob.position} @ ${newJob.companyName}`,
 				variant: "default",
 			})
 		}
@@ -91,18 +90,19 @@ export default function AddNewJobDialog() {
 	function handleSelect(e: any) {
 		setNewJob({ ...newJob, status: e })
 	}
+
 	return (
 		<Dialog
 			open={open}
 			onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button>
-					<PlusSquare className="aspect-square w-5" />
+					<p>Add new Job</p>
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Add new job</DialogTitle>
+					<DialogTitle>Add new job application</DialogTitle>
 					<DialogDescription>Another one?</DialogDescription>
 				</DialogHeader>
 				<form

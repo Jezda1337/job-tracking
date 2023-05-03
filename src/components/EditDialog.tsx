@@ -63,7 +63,6 @@ export default function EditDialog(props: Props) {
 				console.error(error)
 				return
 			}
-
 			setOpen(false)
 		}
 	}
@@ -71,12 +70,12 @@ export default function EditDialog(props: Props) {
 	async function handleDelete() {
 		const { error } = await supabase.from("job").delete().eq("id", props.id)
 		if (error) {
-			console.log(error)
+			console.error(error)
 			return
 		}
 		toast({
 			variant: "destructive",
-			title: "You have successfully deleted the job",
+			title: `${props.position} @ ${props.companyName} has been deleted.`,
 		})
 	}
 
