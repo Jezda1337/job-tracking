@@ -6,6 +6,8 @@ import AddNewJobDialog from "./AddNewJobDialog"
 import Login from "./Login"
 import Logo from "/public/logo.svg"
 
+export const revalidate = 0
+
 async function MainHeader(): Promise<JSX.Element> {
 	const supabase = createServerComponentSupabaseClient({
 		headers,

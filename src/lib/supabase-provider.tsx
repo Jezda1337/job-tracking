@@ -1,35 +1,38 @@
 "use client"
 
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs"
+import {
+	Session,
+	createBrowserSupabaseClient,
+} from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { createContext, useContext, useEffect, useState } from "react"
 
-import { Database } from "@/types/database"
 import type { SupabaseClient } from "@supabase/auth-helpers-nextjs"
-import { User } from "@supabase/supabase-js"
+
+type MaybeSession = Session | null
 
 type SupabaseContext = {
-	supabase: SupabaseClient<Database>
+	supabase: SupabaseClient
+	session: MaybeSession
 }
 
 const Context = createContext<SupabaseContext | undefined>(undefined)
-const CurretnUser = createContext<User | null>(null)
 
 export default function SupabaseProvider({
 	children,
+	session,
 }: {
 	children: React.ReactNode
+	session: MaybeSession
 }) {
 	const [supabase] = useState(() => createBrowserSupabaseClient())
 	const router = useRouter()
-	const [user, setUser] = useState<User | null>(null)
 
 	useEffect(() => {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(() => {
 			router.refresh()
-			router.push("/jobs")
 		})
 
 		return () => {
@@ -37,33 +40,11 @@ export default function SupabaseProvider({
 		}
 	}, [router, supabase])
 
-	useEffect(() => {
-		async function getUserData() {
-			const {
-				data: { user },
-			} = await supabase.auth.getUser()
-			setUser(user)
-		}
-
-		getUserData()
-	}, [supabase])
-
 	return (
-		<Context.Provider value={{ supabase }}>
-			<CurretnUser.Provider value={user}>
-				<>{children}</>
-			</CurretnUser.Provider>
+		<Context.Provider value={{ supabase, session }}>
+			<>{children}</>
 		</Context.Provider>
 	)
-}
-
-export const useUser = () => {
-	const context = useContext(CurretnUser)
-	if (context === null) {
-		return null
-	}
-
-	return context
 }
 
 export const useSupabase = () => {

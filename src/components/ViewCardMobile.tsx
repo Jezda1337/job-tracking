@@ -1,10 +1,8 @@
 "use client"
 
-import { useSupabase } from "@/lib/supabase-provider"
 import { Job } from "@/types/job"
 import { format } from "date-fns"
 import { Building2, Calendar, CodeIcon, Link } from "lucide-react"
-import { useEffect, useState } from "react"
 import EditDialog from "./EditDialog"
 
 type Props = {
@@ -12,31 +10,7 @@ type Props = {
 }
 
 export default function VeiwCardMobile(props: Props) {
-	const { supabase } = useSupabase()
-	const [job, setJob] = useState(props.job)
-	const { companyName, position, status, link, submitedDate, id } = job
-
-	useEffect(() => {
-		const channel = supabase
-			.channel("custom-all-channel")
-			.on(
-				"postgres_changes",
-				{
-					event: "UPDATE",
-					schema: "public",
-					table: "job",
-					filter: `id=eq.${id}`,
-				},
-				(payload) => {
-					setJob(payload.new as Job)
-				}
-			)
-			.subscribe()
-
-		return () => {
-			channel.unsubscribe()
-		}
-	}, [supabase, id])
+	const { companyName, position, status, link, submitedDate, id } = props.job
 
 	return (
 		<div className="rounded border p-3">
@@ -64,7 +38,7 @@ export default function VeiwCardMobile(props: Props) {
 					</div>
 					<a
 						className="flex"
-						href={link ?? ""}
+						href={link ?? undefined}
 						target="_blank">
 						Link <Link className="ml-2 aspect-square w-3" />
 					</a>
@@ -78,7 +52,7 @@ export default function VeiwCardMobile(props: Props) {
 						companyName={companyName}
 						position={position}
 						status={status}
-						submitedDate={new Date(submitedDate)}
+						submitedDate={new Date(submitedDate!)}
 						link={link}
 						id={id}
 					/>

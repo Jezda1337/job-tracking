@@ -25,8 +25,8 @@ export default function DropDownMenu({ name, email, profilePicture }: Props) {
 
 	async function handleLogout() {
 		await supabase.auth.signOut()
-		window.location.href = "/"
 	}
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

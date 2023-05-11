@@ -23,14 +23,14 @@ export default function Login() {
 	return (
 		<div className="flex flex-col items-center gap-2 md:flex-row">
 			<Button
-				className="w-full md:w-auto"
+				className="w-full font-normal md:w-auto"
 				onClick={handleDemoAccout}>
 				Demo Account
 			</Button>
 			<Button
 				onClick={handleLogin}
-				className="w-full md:w-auto">
-				Sign in with GitHub <Github className="ml-2 aspect-square w-5" />
+				className="w-full font-normal md:w-auto">
+				Continue with GitHub <Github className="ml-2 aspect-square w-5" />
 			</Button>
 		</div>
 	)

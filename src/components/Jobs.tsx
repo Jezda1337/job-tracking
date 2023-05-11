@@ -1,7 +1,8 @@
 "use client"
+
 import { useSupabase } from "@/lib/supabase-provider"
 import { Job } from "@/types/job"
-import { SortAscIcon, SortDescIcon } from "lucide-react"
+import { SortAsc, SortDesc } from "lucide-react"
 import { useEffect, useState } from "react"
 import AddNewJobDialog from "./AddNewJobDialog"
 import ViewCard from "./ViewCard"
@@ -11,41 +12,59 @@ export default function Jobs(props: any) {
 	const { supabase } = useSupabase()
 	const [jobs, setJobs] = useState<any>(props.jobs)
 
-	// realtime on insert
 	useEffect(() => {
 		const channel = supabase
-			.channel("Insert all")
+			.channel("job")
 			.on(
 				"postgres_changes",
-				{ event: "INSERT", schema: "public", table: "job" },
-				async (payload) => {
+				{
+					event: "INSERT",
+					schema: "public",
+					table: "job",
+				},
+				(payload) => {
 					setJobs([...jobs, payload.new])
 				}
 			)
-			.subscribe()
-
-		return () => {
-			supabase.removeChannel(channel)
-		}
-	}, [supabase, jobs, setJobs])
-
-	// realtime on delete
-	useEffect(() => {
-		const channel = supabase
-			.channel("delete row")
 			.on(
 				"postgres_changes",
-				{ event: "DELETE", schema: "public", table: "job" },
-				() => {
-					setJobs(props.jobs)
+				{
+					event: "UPDATE",
+					schema: "public",
+					table: "job",
+				},
+				(payload) => {
+					setJobs(
+						jobs.map((job: Job) => {
+							if (job.id === payload.old.id) {
+								return payload.new
+							} else {
+								return job
+							}
+						})
+					)
+				}
+			)
+			.on(
+				"postgres_changes",
+				{
+					event: "DELETE",
+					schema: "public",
+					table: "job",
+				},
+				(payload) => {
+					setJobs(jobs.filter((job: Job) => job.id !== payload.old.id))
 				}
 			)
 			.subscribe()
+		// .subscribe((status) => {
+		// 	console.log("subscribe status = ", status)
+		// })
 
 		return () => {
 			supabase.removeChannel(channel)
 		}
-	}, [supabase, props.jobs])
+	}, [props.jobs, jobs, setJobs, supabase])
 
 	return (
 		<>
@@ -64,9 +83,9 @@ export default function Jobs(props: any) {
 										<p>Status</p>
 										<button>
 											{true ? (
-												<SortAscIcon className="aspect-square w-4" />
+												<SortAsc className="aspect-square w-4" />
 											) : (
-												<SortDescIcon className="aspect-square w-4" />
+												<SortDesc className="aspect-square w-4" />
 											)}
 										</button>
 									</div>
@@ -76,9 +95,9 @@ export default function Jobs(props: any) {
 										<p>Date</p>
 										<button>
 											{true ? (
-												<SortAscIcon className="aspect-square w-4" />
+												<SortAsc className="aspect-square w-4" />
 											) : (
-												<SortDescIcon className="aspect-square w-4" />
+												<SortDesc className="aspect-square w-4" />
 											)}
 										</button>
 									</div>

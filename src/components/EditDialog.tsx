@@ -110,6 +110,7 @@ export default function EditDialog(props: Props) {
 								className="row-span-2"
 								onChange={(e) => setCompanyName(e.target.value)}
 								value={companyName ?? ""}
+								name="companyName"
 							/>
 						</div>
 						<div className="grid-row-2 grid items-center gap-1">
@@ -123,6 +124,7 @@ export default function EditDialog(props: Props) {
 								className="row-span-2"
 								onChange={(e) => setPosition(e.target.value)}
 								value={position ?? ""}
+								name="position"
 							/>
 						</div>
 						<div className="grid-row-2 grid items-center gap-1">
@@ -136,6 +138,7 @@ export default function EditDialog(props: Props) {
 								className="row-span-2"
 								onChange={(e) => setLink(e.target.value)}
 								value={link ?? ""}
+								name="link"
 							/>
 						</div>
 						<div className="row-span-2 grid items-center gap-1">
@@ -145,6 +148,7 @@ export default function EditDialog(props: Props) {
 								Status
 							</label>
 							<Select
+								name="status"
 								value={status ?? ""}
 								onValueChange={(e) => setStatus(e)}>
 								<SelectTrigger className="row-span-2">

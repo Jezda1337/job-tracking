@@ -1,9 +1,7 @@
 "use client"
 
-import { useSupabase } from "@/lib/supabase-provider"
 import { Job } from "@/types/job"
 import { format } from "date-fns"
-import { useEffect, useState } from "react"
 import EditDialog from "../EditDialog"
 import "./viewCard.css"
 
@@ -11,31 +9,7 @@ type Props = {
 	job: Job
 }
 export default function ViewCard(props: Props) {
-	const { supabase } = useSupabase()
-	const [job, setJob] = useState(props.job)
-	const { companyName, position, status, link, submitedDate, id } = job
-
-	useEffect(() => {
-		const channel = supabase
-			.channel("update db")
-			.on(
-				"postgres_changes",
-				{
-					event: "UPDATE",
-					schema: "public",
-					table: "job",
-					filter: `id=eq.${id}`,
-				},
-				(payload) => {
-					setJob(payload.new as Job)
-				}
-			)
-			.subscribe()
-
-		return () => {
-			channel.unsubscribe()
-		}
-	}, [supabase, id, job, setJob])
+	const { companyName, position, status, link, submitedDate, id } = props.job
 
 	return (
 		<>
@@ -46,7 +20,7 @@ export default function ViewCard(props: Props) {
 					<a
 						target="_blank"
 						className="hover:text-blue-500 hover:underline"
-						href={link ?? ""}>
+						href={link ?? undefined}>
 						Link
 					</a>
 				</td>
@@ -63,7 +37,7 @@ export default function ViewCard(props: Props) {
 							} w-3 h-3 rounded-full absolute right-7`}></div>
 					</div>
 				</td>
-				<td>{format(new Date(submitedDate!), "PPP")}</td>
+				<td>{format(new Date(submitedDate as string), "PPP")}</td>
 				<td className="text-center">
 					<EditDialog
 						companyName={companyName}
