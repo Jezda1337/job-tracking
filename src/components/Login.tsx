@@ -10,6 +10,9 @@ export default function Login() {
 	async function handleLogin() {
 		await supabase.auth.signInWithOAuth({
 			provider: "github",
+			options: {
+				redirectTo: window.location.origin,
+			},
 		})
 	}
 

@@ -19,9 +19,8 @@ async function MainHeader(): Promise<JSX.Element> {
 	return (
 		<header className="pb-8 pt-8 shadow">
 			<div
-				className={`mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 md:flex-row md:gap-0 lg:px-0 ${
-					user ? "flex-row" : "flex-col"
-				}`}>
+				className={`mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 md:flex-row md:gap-0 lg:px-0 ${user ? "flex-row" : "flex-col"
+					}`}>
 				<div>
 					<Image
 						className="aspect-square w-12"

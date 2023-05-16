@@ -17,6 +17,7 @@ import { format } from "date-fns"
 import { EditIcon } from "lucide-react"
 import { FormEvent, useState } from "react"
 import { CalendarDatePicker } from "./CalendarDatePicker"
+import { ConfirmDialog } from "./ConfirmDialog"
 import {
 	Select,
 	SelectContent,
@@ -174,14 +175,18 @@ export default function EditDialog(props: Props) {
 						</div>
 					</div>
 					<DialogFooter className="gap-2">
-						<DialogTrigger asChild>
-							<Button
-								variant="destructive"
-								onClick={handleDelete}
-								type="button">
-								Delete
-							</Button>
-						</DialogTrigger>
+						{/* <DialogTrigger asChild> */}
+						{/* <Button */}
+						{/* 	variant="destructive" */}
+						{/* 	onClick={handleDelete} */}
+						{/* 	type="button"> */}
+						{/* 	Delete */}
+						{/* </Button> */}
+						{/* </DialogTrigger> */}
+						<ConfirmDialog
+							cancel={() => null}
+							deleteJob={handleDelete}
+						/>
 						<Button
 							variant="default"
 							aria-label="Close"
