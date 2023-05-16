@@ -95,7 +95,7 @@ export default function EditDialog(props: Props) {
 					<EditIcon className="h-5 w-5 hover:text-blue-500" />
 				</button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="h-screen overflow-y-scroll sm:max-w-[425px] md:h-auto md:overflow-y-hidden">
 				<DialogHeader>
 					<DialogTitle>Edit Job</DialogTitle>
 					<DialogDescription></DialogDescription>

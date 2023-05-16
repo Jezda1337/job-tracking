@@ -104,7 +104,7 @@ export default function AddNewJobDialog() {
 					<p>Add new Job</p>
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="h-screen overflow-y-scroll sm:max-w-[425px] md:h-auto md:overflow-y-hidden">
 				<DialogHeader>
 					<DialogTitle>Add new job application</DialogTitle>
 					<DialogDescription>Another one?</DialogDescription>
