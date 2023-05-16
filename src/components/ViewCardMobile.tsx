@@ -10,7 +10,16 @@ type Props = {
 }
 
 export default function VeiwCardMobile(props: Props) {
-	const { companyName, position, status, link, submitedDate, id } = props.job
+	const {
+		companyName,
+		position,
+		status,
+		link,
+		submitedDate,
+		id,
+		salary,
+		description,
+	} = props.job
 
 	return (
 		<div className="rounded border p-3">
@@ -55,6 +64,8 @@ export default function VeiwCardMobile(props: Props) {
 						submitedDate={new Date(submitedDate!)}
 						link={link}
 						id={id}
+						salary={salary}
+						description={description}
 					/>
 				</p>
 			</header>
