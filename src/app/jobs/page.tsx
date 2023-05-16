@@ -1,5 +1,6 @@
 "use server"
 import Jobs from "@/components/Jobs"
+import { Job } from "@/types/job"
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs"
 import { cookies, headers } from "next/headers"
 import { redirect } from "next/navigation"
@@ -19,7 +20,7 @@ export default async function Page() {
 
 	return (
 		<>
-			<Jobs jobs={jobs} />
+			<Jobs jobs={(jobs as Job[]) ?? []} />
 		</>
 	)
 }
