@@ -12,7 +12,7 @@ export default async function Page() {
 		data: { session },
 	} = await supabase.auth.getSession()
 
-	if (session) redirect("/jobs")
+	if (session) return redirect("/jobs")
 
 	return (
 		<section className="flex min-h-[calc(100vh-104px)] flex-col items-center text-center">

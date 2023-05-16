@@ -22,7 +22,7 @@ export default function VeiwCardMobile(props: Props) {
 					</div>
 					<p
 						className={`ml-auto rounded-full px-3 ${
-							status === "pending"
+							status === "pending" || "interviewed"
 								? "bg-amber-400"
 								: status === "accepted"
 								? "bg-green-400"

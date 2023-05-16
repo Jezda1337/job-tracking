@@ -9,7 +9,16 @@ type Props = {
 	job: Job
 }
 export default function ViewCard(props: Props) {
-	const { companyName, position, status, link, submitedDate, id } = props.job
+	const {
+		companyName,
+		position,
+		status,
+		link,
+		submitedDate,
+		id,
+		description,
+		salary,
+	} = props.job
 
 	return (
 		<>
@@ -29,15 +38,15 @@ export default function ViewCard(props: Props) {
 						<p className="first-letter:uppercase">{status}</p>
 						<div
 							className={`${
-								status === "pending"
+								status === "pending" || "interviewid"
 									? "bg-amber-400"
 									: status === "accepted"
 									? "bg-green-400"
 									: "bg-red-500"
-							} w-3 h-3 rounded-full absolute right-7`}></div>
+							} w-3 h-3 rounded-full absolute right-3`}></div>
 					</div>
 				</td>
-				<td>{format(new Date(submitedDate as string), "PPP")}</td>
+				<td>{format(new Date(submitedDate!), "PPP")}</td>
 				<td className="text-center">
 					<EditDialog
 						companyName={companyName}
@@ -46,6 +55,8 @@ export default function ViewCard(props: Props) {
 						submitedDate={new Date(submitedDate!)}
 						link={link}
 						id={id}
+						description={description}
+						salary={salary}
 					/>
 				</td>
 			</tr>

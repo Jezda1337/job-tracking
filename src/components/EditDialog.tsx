@@ -33,6 +33,8 @@ type Props = {
 	status: string | null
 	submitedDate: Date | null
 	link: string | null
+	salary: string
+	description: string
 }
 
 export default function EditDialog(props: Props) {
@@ -45,18 +47,22 @@ export default function EditDialog(props: Props) {
 	const [status, setStatus] = useState(props.status)
 	const [submitedDate, setSubmitedDate] = useState(props.submitedDate)
 	const [link, setLink] = useState(props.link)
+	const [description, setDescription] = useState(props.description)
+	const [salary, setSalary] = useState(props.salary)
 
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 		if (open) {
 			const { error } = await supabase
-				.from("job")
+				.from("jobs")
 				.update({
 					companyName: companyName,
 					position: position,
 					status: status,
 					link: link,
 					submitedDate: format(submitedDate as Date, "MM/dd/yyyy"),
+					salary: salary,
+					description: description,
 				})
 				.eq("id", props.id)
 
@@ -69,7 +75,7 @@ export default function EditDialog(props: Props) {
 	}
 
 	async function handleDelete() {
-		const { error } = await supabase.from("job").delete().eq("id", props.id)
+		const { error } = await supabase.from("jobs").delete().eq("id", props.id)
 		if (error) {
 			console.error(error)
 			return
@@ -130,6 +136,22 @@ export default function EditDialog(props: Props) {
 						</div>
 						<div className="grid-row-2 grid items-center gap-1">
 							<label
+								htmlFor="salary"
+								className="row-span-1">
+								Position
+							</label>
+							<Input
+								value={salary ?? ""}
+								placeholder="3000 .."
+								id="salary"
+								className="row-span-2"
+								onChange={(e) => setSalary(e.target.value)}
+								required
+							/>
+						</div>
+
+						<div className="grid-row-2 grid items-center gap-1">
+							<label
 								htmlFor="link"
 								className="row-span-1">
 								Link
@@ -159,6 +181,7 @@ export default function EditDialog(props: Props) {
 									<SelectItem value="pending">Pending</SelectItem>
 									<SelectItem value="accepted">Accepted</SelectItem>
 									<SelectItem value="rejected">Rejected</SelectItem>
+									<SelectItem value="interviewed">Interviewed</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
@@ -172,6 +195,19 @@ export default function EditDialog(props: Props) {
 								setDate={setSubmitedDate}
 								date={submitedDate}
 							/>
+						</div>
+						<div className="grid-row-2 grid items-center gap-1">
+							<label
+								htmlFor="date"
+								className="row-span-1">
+								Description
+							</label>
+							<textarea
+								id="description"
+								value={description ?? ""}
+								className="rounded-md border px-2 py-3"
+								placeholder="A reminder related to this job"
+								onChange={(e) => setDescription(e.target.value)}></textarea>
 						</div>
 					</div>
 					<DialogFooter className="gap-2">

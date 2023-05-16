@@ -9,7 +9,7 @@ export default async function Page() {
 		headers,
 		cookies,
 	})
-	const { data: job } = await supabase.from("job").select()
+	const { data: jobs } = await supabase.from("jobs").select()
 
 	const {
 		data: { session },
@@ -19,7 +19,7 @@ export default async function Page() {
 
 	return (
 		<>
-			<Jobs jobs={job} />
+			<Jobs jobs={jobs} />
 		</>
 	)
 }

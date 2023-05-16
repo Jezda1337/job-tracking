@@ -27,9 +27,11 @@ import {
 type NewJob = {
 	companyName: string
 	position: string
+	salary: string
 	status: string
 	link: string
 	submitedDate: Date | undefined
+	description: string
 }
 
 export default function AddNewJobDialog() {
@@ -41,9 +43,11 @@ export default function AddNewJobDialog() {
 	const [newJob, setNewJob] = useState<NewJob>({
 		companyName: "",
 		position: "",
+		salary: "",
 		status: "pending",
 		link: "",
 		submitedDate: new Date(),
+		description: "",
 	})
 
 	async function getUserId() {
@@ -57,11 +61,11 @@ export default function AddNewJobDialog() {
 		event.preventDefault()
 		if (open) {
 			setNewJob({ ...newJob, submitedDate: date })
-			const { error } = await supabase.from("job").insert([
+			const { error } = await supabase.from("jobs").insert([
 				{
 					...newJob,
 					submitedDate: format(new Date(newJob.submitedDate!), "MM/dd/yyyy"),
-					user_id: await getUserId(),
+					userId: await getUserId(),
 				},
 			])
 
@@ -80,8 +84,8 @@ export default function AddNewJobDialog() {
 		}
 	}
 
-	function handleChange(e: FormEvent<HTMLInputElement>) {
-		const value = (e.target as HTMLInputElement).value
+	function handleChange(e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) {
+		const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value
 		const id = (e.target as HTMLInputElement).id
 
 		setNewJob({ ...newJob, [id]: value })
@@ -141,6 +145,20 @@ export default function AddNewJobDialog() {
 						</div>
 						<div className="grid-row-2 grid items-center gap-1">
 							<label
+								htmlFor="salary"
+								className="row-span-1">
+								Position
+							</label>
+							<Input
+								placeholder="3000 .."
+								id="salary"
+								className="row-span-2"
+								onChange={handleChange}
+								required
+							/>
+						</div>
+						<div className="grid-row-2 grid items-center gap-1">
+							<label
 								htmlFor="link"
 								className="row-span-1">
 								Link
@@ -168,6 +186,7 @@ export default function AddNewJobDialog() {
 									<SelectItem value="pending">Pending</SelectItem>
 									<SelectItem value="accepted">Accepted</SelectItem>
 									<SelectItem value="rejected">Rejected</SelectItem>
+									<SelectItem value="interviewed">Interviewed</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
@@ -181,6 +200,18 @@ export default function AddNewJobDialog() {
 								date={date}
 								setDate={setDate}
 							/>
+						</div>
+						<div className="grid-row-2 grid items-center gap-1">
+							<label
+								htmlFor="date"
+								className="row-span-1">
+								Description
+							</label>
+							<textarea
+								id="description"
+								className="rounded-md border px-2 py-3"
+								placeholder="A reminder related to this job"
+								onChange={handleChange}></textarea>
 						</div>
 					</div>
 					<DialogFooter>

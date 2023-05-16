@@ -8,22 +8,22 @@ import AddNewJobDialog from "./AddNewJobDialog"
 import ViewCard from "./ViewCard"
 import ViewCardMobile from "./ViewCardMobile"
 
-export default function Jobs(props: any) {
+export default function Jobs(props: { jobs: Job[] }) {
 	const { supabase } = useSupabase()
-	const [jobs, setJobs] = useState<any>(props.jobs)
+	const [jobs, setJobs] = useState<Job[]>(props.jobs)
 
 	useEffect(() => {
 		const channel = supabase
-			.channel("job")
+			.channel("jobs")
 			.on(
 				"postgres_changes",
 				{
 					event: "INSERT",
 					schema: "public",
-					table: "job",
+					table: "jobs",
 				},
 				(payload) => {
-					setJobs([...jobs, payload.new])
+					setJobs([...jobs, payload.new as Job])
 				}
 			)
 			.on(
@@ -31,13 +31,13 @@ export default function Jobs(props: any) {
 				{
 					event: "UPDATE",
 					schema: "public",
-					table: "job",
+					table: "jobs",
 				},
 				(payload) => {
 					setJobs(
 						jobs.map((job: Job) => {
 							if (job.id === payload.old.id) {
-								return payload.new
+								return payload.new as Job
 							} else {
 								return job
 							}
@@ -50,7 +50,7 @@ export default function Jobs(props: any) {
 				{
 					event: "DELETE",
 					schema: "public",
-					table: "job",
+					table: "jobs",
 				},
 				(payload) => {
 					setJobs(jobs.filter((job: Job) => job.id !== payload.old.id))
@@ -69,7 +69,7 @@ export default function Jobs(props: any) {
 	return (
 		<>
 			<div className="mx-auto hidden max-w-5xl md:block">
-				{jobs?.length !== 0 ? (
+				{jobs.length > 0 ? (
 					<table className="mt-16 w-full">
 						<thead className="w-full text-left">
 							<tr className="text-left">
@@ -124,7 +124,7 @@ export default function Jobs(props: any) {
 				)}
 			</div>
 			<div className="mt-5 space-y-2 px-3 md:hidden">
-				{jobs.length !== 0 ? (
+				{jobs.length > 0 ? (
 					jobs?.map((job: Job) => (
 						<ViewCardMobile
 							key={job.id}
