@@ -104,7 +104,7 @@ export default function AddNewJobDialog() {
 					<p>Add new Job</p>
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="h-screen overflow-y-scroll sm:max-w-[425px] md:h-auto md:overflow-y-hidden">
+			<DialogContent className="h-[100dvh] overflow-y-scroll sm:max-w-[425px] md:h-auto md:overflow-y-hidden">
 				<DialogHeader>
 					<DialogTitle>Add new job application</DialogTitle>
 					<DialogDescription>Another one?</DialogDescription>
@@ -147,7 +147,7 @@ export default function AddNewJobDialog() {
 							<label
 								htmlFor="salary"
 								className="row-span-1">
-								Position
+								Salary
 							</label>
 							<Input
 								placeholder="3000 .."

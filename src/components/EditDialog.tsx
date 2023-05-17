@@ -95,7 +95,7 @@ export default function EditDialog(props: Props) {
 					<EditIcon className="h-5 w-5 hover:text-blue-500" />
 				</button>
 			</DialogTrigger>
-			<DialogContent className="h-screen overflow-y-scroll sm:max-w-[425px] md:h-auto md:overflow-y-hidden">
+			<DialogContent className="h-[100dvh] overflow-y-scroll sm:max-w-[425px] md:h-auto md:overflow-y-hidden">
 				<DialogHeader>
 					<DialogTitle>Edit Job</DialogTitle>
 					<DialogDescription></DialogDescription>
@@ -138,7 +138,7 @@ export default function EditDialog(props: Props) {
 							<label
 								htmlFor="salary"
 								className="row-span-1">
-								Position
+								Salary
 							</label>
 							<Input
 								value={salary ?? ""}

@@ -7,7 +7,6 @@ import Login from "./Login"
 import Logo from "/public/logo.svg"
 
 export const revalidate = 0
-
 async function MainHeader(): Promise<JSX.Element> {
 	const supabase = createServerComponentSupabaseClient({
 		headers,
@@ -17,10 +16,11 @@ async function MainHeader(): Promise<JSX.Element> {
 		data: { user },
 	} = await supabase.auth.getUser()
 	return (
-		<header className="pb-8 pt-8 shadow">
+		<header className="py-8 shadow">
 			<div
-				className={`mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 md:flex-row md:gap-0 lg:px-0 ${user ? "flex-row" : "flex-col"
-					}`}>
+				className={`mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 md:flex-row md:gap-0 lg:px-0 ${
+					user ? "flex-row" : "flex-col"
+				}`}>
 				<div>
 					<Image
 						className="aspect-square w-12"
