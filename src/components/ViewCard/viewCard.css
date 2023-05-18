@@ -1,5 +1,5 @@
 .test:nth-child(even) {
-	color: #fff;
+	color: white;
 }
 
 .test:nth-child(even) td:first-of-type {
@@ -14,4 +14,16 @@
 }
 .test:nth-child(even) td {
 	background-color: hsl(var(--primary));
+}
+
+.test:not(:nth-child(even)) td {
+	background-color: white;
+}
+.test:not(:nth-child(even)) td:first-of-type {
+	border-top-left-radius: 0.25rem;
+	border-bottom-left-radius: 0.25rem;
+}
+.test:not(:nth-child(even)) td:last-of-type {
+	border-top-right-radius: 0.25rem;
+	border-bottom-right-radius: 0.25rem;
 }

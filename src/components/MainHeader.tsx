@@ -16,7 +16,7 @@ async function MainHeader(): Promise<JSX.Element> {
 		data: { user },
 	} = await supabase.auth.getUser()
 	return (
-		<header className="py-8 shadow">
+		<header className="bg-white py-8 shadow">
 			<div
 				className={`mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 md:flex-row md:gap-0 lg:px-0 ${
 					user ? "flex-row" : "flex-col"

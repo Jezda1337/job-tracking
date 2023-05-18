@@ -5,6 +5,7 @@ import { Job } from "@/types/job"
 import { SortAsc, SortDesc } from "lucide-react"
 import { useEffect, useState } from "react"
 import AddNewJobDialog from "./AddNewJobDialog"
+import Stats from "./Stats"
 import ViewCard from "./ViewCard"
 import ViewCardMobile from "./ViewCardMobile"
 
@@ -68,6 +69,9 @@ export default function Jobs(props: { jobs: Job[] }) {
 
 	return (
 		<>
+			<div className="mx-auto max-w-5xl px-3 md:px-0">
+				<Stats jobs={jobs} />
+			</div>
 			<div className="mx-auto hidden max-w-5xl md:block">
 				{jobs.length > 0 ? (
 					<table className="mt-16 w-full">
@@ -76,8 +80,11 @@ export default function Jobs(props: { jobs: Job[] }) {
 								<th className="mb-4 w-48 rounded-bl rounded-tl bg-secondary py-2 pl-4">
 									Company Name
 								</th>
-								<th className="bg-secondary">Position</th>
-								<th className="w-20 bg-secondary">Link</th>
+								<th className="w-[290px] max-w-[290px] bg-secondary pl-4">
+									Position
+								</th>
+								<th className="w-20 bg-secondary pl-4">Salary</th>
+								<th className="w-20 bg-secondary pl-2">Link</th>
 								<th className="w-32 bg-secondary">
 									<div className="flex gap-2">
 										<p>Status</p>

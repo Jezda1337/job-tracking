@@ -20,12 +20,23 @@ export default function ViewCard(props: Props) {
 		salary,
 	} = props.job
 
+	console.log(status)
+
 	return (
 		<>
 			<tr className="test my-3 table-row w-32 rounded p-2">
-				<td className="py-2 pl-4">{companyName}</td>
-				<td>{position}</td>
-				<td>
+				<td
+					className="max-w-[192px] overflow-hidden text-ellipsis whitespace-nowrap py-2 pl-4"
+					title={companyName ?? ""}>
+					{companyName}
+				</td>
+				<td
+					className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap pl-4"
+					title={position ?? ""}>
+					{position}
+				</td>
+				<td className="pl-4">{salary}</td>
+				<td className="pl-2">
 					<a
 						target="_blank"
 						className="hover:text-blue-500 hover:underline"
@@ -38,7 +49,7 @@ export default function ViewCard(props: Props) {
 						<p className="first-letter:uppercase">{status}</p>
 						<div
 							className={`${
-								status === "pending" || "interviewid"
+								status === ("pending" || "interviewed")
 									? "bg-amber-400"
 									: status === "accepted"
 									? "bg-green-400"

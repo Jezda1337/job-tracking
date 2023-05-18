@@ -30,7 +30,7 @@ export default async function RootLayout({
 	} = await supabase.auth.getSession()
 	return (
 		<html lang="en">
-			<body className={`min-h-screen bg-white  ${poppins.className}`}>
+			<body className={`min-h-screen bg-blue-100  ${poppins.className}`}>
 				<SupabaseProvider session={session}>
 					{session ? <MainHeader /> : null}
 					{children}

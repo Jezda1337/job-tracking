@@ -19,8 +19,8 @@ export default async function Page() {
 	if (!session) redirect("/auth")
 
 	return (
-		<>
+		<section className="mt-12">
 			<Jobs jobs={(jobs as Job[]) ?? []} />
-		</>
+		</section>
 	)
 }
