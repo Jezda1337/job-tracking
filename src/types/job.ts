@@ -5,7 +5,7 @@ export type Job = {
 	status: string | null
 	submitedDate: string | null
 	link: string | null
-	userId: string | null
+	user_id: string | null
 	salary: string
 	description: string
 	created_at?: string | null

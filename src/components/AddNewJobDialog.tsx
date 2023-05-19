@@ -65,7 +65,7 @@ export default function AddNewJobDialog() {
 				{
 					...newJob,
 					submitedDate: format(new Date(newJob.submitedDate!), "MM/dd/yyyy"),
-					userId: await getUserId(),
+					user_id: await getUserId(),
 				},
 			])
 
