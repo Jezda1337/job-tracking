@@ -22,12 +22,14 @@ export default function VeiwCardMobile(props: Props) {
 	} = props.job
 
 	return (
-		<div className="rounded border p-3">
+		<div className="rounded-md border bg-white p-3">
 			<header className="">
 				<div className="flex gap-2">
-					<div className="flex gap-2">
-						<Building2 className="aspect-square w-3" />
-						<p>{companyName}</p>
+					<div className="flex gap-2 overflow-hidden">
+						<Building2 className="aspect-square w-3 min-w-[12px]" />
+						<p className="max-w-[min(60%) max(80%)] overflow-hidden text-ellipsis whitespace-nowrap">
+							{companyName}
+						</p>
 					</div>
 					<p
 						className={`ml-auto rounded-full px-3 ${
@@ -41,9 +43,11 @@ export default function VeiwCardMobile(props: Props) {
 					</p>
 				</div>
 				<div className="my-2 flex justify-between">
-					<div className="flex gap-2">
-						<CodeIcon className="aspect-square w-3" />
-						<h3>{position}</h3>
+					<div className="flex gap-2 overflow-hidden">
+						<CodeIcon className="aspect-square w-3 min-w-[12px]" />
+						<h3 className="max-w-[min(60%) max(80%)] overflow-hidden text-ellipsis whitespace-nowrap">
+							{position}
+						</h3>
 					</div>
 					<a
 						className="flex"

@@ -20,8 +20,6 @@ export default function ViewCard(props: Props) {
 		salary,
 	} = props.job
 
-	console.log(status)
-
 	return (
 		<>
 			<tr className="test my-3 table-row w-32 rounded p-2">

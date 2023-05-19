@@ -5,4 +5,5 @@ Technical, Offer
 [-] - Add ability for users to rate position after they be rejected or even
 accepted, some kid of system of rate like 5 stars
 [x] - add confirmation dialog for deleting the job
-[ ] - user should see how much jobs he apply, so global number for all jobs
+[x] - user should see how much jobs he apply, so global number for all jobs
+[ ] - make another README.md file

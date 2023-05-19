@@ -69,7 +69,7 @@ export default function Jobs(props: { jobs: Job[] }) {
 
 	return (
 		<>
-			<div className="mx-auto max-w-5xl px-3 md:px-0">
+			<div className="mx-auto max-w-5xl px-2 py-4 md:px-0">
 				<Stats jobs={jobs} />
 			</div>
 			<div className="mx-auto hidden max-w-5xl md:block">
@@ -130,7 +130,7 @@ export default function Jobs(props: { jobs: Job[] }) {
 					</div>
 				)}
 			</div>
-			<div className="mt-5 space-y-2 px-3 md:hidden">
+			<div className="mt-5 space-y-2 px-3 pb-4 md:hidden">
 				{jobs.length > 0 ? (
 					jobs?.map((job: Job) => (
 						<ViewCardMobile
