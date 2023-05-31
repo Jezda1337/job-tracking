@@ -12,6 +12,39 @@ export default async function Page() {
 	})
 	const { data: jobs } = await supabase.from("jobs").select()
 
+	const rejectedJobs: Job[] = []
+	const otherJobs: Job[] = [](jobs as Job[]).forEach((job: Job) => {
+		if (job.status === "rejected") {
+			rejectedJobs.push(job)
+		} else {
+			otherJobs.push(job)
+		}
+	})
+
+	rejectedJobs.sort((a: Job, b: Job) => {
+		if (
+			new Date(b.created_at).getTime() - new Date(a.created_at).getTime() !==
+			0
+		) {
+			return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+		} else {
+			return a.status.localeCompare(b.status)
+		}
+	})
+
+	otherJobs.sort((a: Job, b: Job) => {
+		if (
+			new Date(b.created_at).getTime() - new Date(a.created_at).getTime() !==
+			0
+		) {
+			return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+		} else {
+			return a.status.localeCompare(b.status)
+		}
+	})
+
+	const sortedJobs = [...otherJobs, ...rejectedJobs]
+
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()
@@ -20,7 +53,7 @@ export default async function Page() {
 
 	return (
 		<section className="mt-12">
-			<Jobs jobs={(jobs as Job[]) ?? []} />
+			<Jobs jobs={(sortedJobs as Job[]) ?? []} />
 		</section>
 	)
 }
